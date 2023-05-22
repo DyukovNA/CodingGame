@@ -2,7 +2,6 @@ package swing;
 
 import entity.Player;
 import model.CodeExecutor;
-import model.CollisionChecker;
 import model.LevelManager;
 import object.Object;
 import tile.TileManager;
@@ -16,7 +15,6 @@ public class GamePanel extends JPanel implements Runnable {
     public int maxScreenRow = 6;
     int screenWidth = tileSize * maxScreenCol;
     int screenHeight = 1080;
-
     Thread gameThread;
     public CodePanel codePanel;
 
@@ -24,25 +22,29 @@ public class GamePanel extends JPanel implements Runnable {
         return tileSize;
     }
 
-    CodeExecutor codeExecutor;
-
-    public CodeExecutor getCodeExecutor() {
-        return codeExecutor;
+    public TileManager getTileManager() {
+        return tileManager;
     }
 
-    public TileManager tileManager = new TileManager(this);
-    public CollisionChecker collisionChecker = new CollisionChecker(this);
+    TileManager tileManager = new TileManager(this);
     Player player = new Player(this);
-    public int tangerinesToFinish;
+
+    public int getTangerinesToFinish() {
+        return tangerinesToFinish;
+    }
+
+    public void setTangerinesToFinish(int tangerinesToFinish) {
+        this.tangerinesToFinish = tangerinesToFinish;
+    }
+
+    int tangerinesToFinish;
     public Object[] objects = new Object[10];
     LevelPanel levelPanel;
 
     public GamePanel(CodePanel codePanel) {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-        //this.setBackground(Color.BLACK);
         this.codePanel = codePanel;
-        this.codeExecutor = codePanel.codeExecutor;
-        //this.mainPanel = codePanel.mainPanel;
+        //this.codeExecutor = codePanel.codeExecutor;
         this.setDoubleBuffered(true);
         this.setFocusable(true);
         this.startGameThread();

@@ -1,90 +1,84 @@
 package model;
 
-import entity.Entity;
 import swing.GamePanel;
 
+import java.awt.*;
+
 public class CollisionChecker {
-    GamePanel gamePanel;
+    static GamePanel gamePanel = CodeExecutor.gamePanel;
 
-    public CollisionChecker(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
-    }
-
-    public void checkTile(Entity entity) {
-        int column = entity.x / gamePanel.getTileSize();
-        int row = entity.y / gamePanel.getTileSize();
+    public static boolean checkTile(int x, int y, int speed, String direction) {
+        int column = x / gamePanel.getTileSize();
+        int row = y / gamePanel.getTileSize();
         int nextColumn = column;
         int nextRow = row;
         int tileNum;
         try {
-            switch (entity.direction) {
+            switch (direction) {
                 case "up" -> {
-                    if (entity.y - entity.speed < 0) {
-                        entity.collisionOn = true;
+                    if (y - speed < 0) {
+                        return true;
                     } else {
-                        nextRow = (entity.y - entity.speed) / gamePanel.getTileSize();
-                        tileNum = gamePanel.tileManager.mapTileNum[nextColumn][nextRow];
-                        entity.collisionOn = gamePanel.tileManager.tileList.get(tileNum).collision;
+                        nextRow = (y - speed) / gamePanel.getTileSize();
+                        tileNum = gamePanel.getTileManager().mapTileNum[nextColumn][nextRow];
+                        return gamePanel.getTileManager().tileList.get(tileNum).collision;
                     }
                 }
                 case "down" -> {
-                    //nextRow = (entity.y + entity.speed) / gp.tileSize;
-                    tileNum = gamePanel.tileManager.mapTileNum[nextColumn][nextRow + 1];
-                    entity.collisionOn = gamePanel.tileManager.tileList.get(tileNum).collision;
+                    tileNum = gamePanel.getTileManager().mapTileNum[nextColumn][nextRow + 1];
+                    return gamePanel.getTileManager().tileList.get(tileNum).collision;
                 }
                 case "left" -> {
-                    if (entity.x - entity.speed < 0) {
-                        entity.collisionOn = true;
+                    if (x - speed < 0) {
+                        return true;
                     } else {
-                        nextColumn = (entity.x - entity.speed) / gamePanel.getTileSize();
-                        tileNum = gamePanel.tileManager.mapTileNum[nextColumn][nextRow];
-                        entity.collisionOn = gamePanel.tileManager.tileList.get(tileNum).collision;
+                        nextColumn = (x - speed) / gamePanel.getTileSize();
+                        tileNum = gamePanel.getTileManager().mapTileNum[nextColumn][nextRow];
+                        return gamePanel.getTileManager().tileList.get(tileNum).collision;
                     }
                 }
                 case "right" -> {
-                    //nextColumn = (entity.x + entity.speed) / gp.tileSize;
-                    tileNum = gamePanel.tileManager.mapTileNum[nextColumn + 1][nextRow];
-                    entity.collisionOn = gamePanel.tileManager.tileList.get(tileNum).collision;
+                    tileNum = gamePanel.getTileManager().mapTileNum[nextColumn + 1][nextRow];
+                    return gamePanel.getTileManager().tileList.get(tileNum).collision;
+                }
+                default -> {
+                    return false;
                 }
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            entity.collisionOn = true;
+            return true;
         }
     }
 
-    public int checkObject(Entity entity, boolean isPlayer) {
+    public static int checkObject(int speed, Rectangle solidArea, String direction, boolean isPlayer) {
         int index = -1;
         for (int i = 0; i < gamePanel.objects.length; i++) {
             if (gamePanel.objects[i] != null) {
-                switch (entity.direction) {
+                switch (direction) {
                     case "up":
-                        entity.solidArea.y -= entity.speed;
-                        if (entity.solidArea.intersects(gamePanel.objects[i].solidArea)) {
-                            if (gamePanel.objects[i].collision) entity.collisionOn = true;
+                        solidArea.y -= speed;
+                        if (solidArea.intersects(gamePanel.objects[i].solidArea)) {
                             if (isPlayer) return i;
                             System.out.println("up collision");
                         }
                         break;
                     case "down":
-                        entity.solidArea.y += entity.speed;
-                        if (entity.solidArea.intersects(gamePanel.objects[i].solidArea)) {
-                            if (gamePanel.objects[i].collision) entity.collisionOn = true;
+                        solidArea.y += speed;
+                        if (solidArea.intersects(gamePanel.objects[i].solidArea)) {
                             if (isPlayer) return i;
                             System.out.println("down collision");
                         }
                         break;
                     case "left":
-                        entity.solidArea.x -= entity.speed;
-                        if (entity.solidArea.intersects(gamePanel.objects[i].solidArea)) {
-                            if (gamePanel.objects[i].collision) entity.collisionOn = true;
+                        solidArea.x -= speed;
+                        if (solidArea.intersects(gamePanel.objects[i].solidArea)) {
                             if (isPlayer) return i;
                             System.out.println("left collision");
                         }
                         break;
                     case "right":
-                        entity.solidArea.x += entity.speed;
-                        if (entity.solidArea.intersects(gamePanel.objects[i].solidArea)) {
-                            if (gamePanel.objects[i].collision) entity.collisionOn = true;
+                        solidArea.x += speed;
+                        if (solidArea.intersects(gamePanel.objects[i].solidArea)) {
                             if (isPlayer) return i;
                             System.out.println("right collision");
                         }

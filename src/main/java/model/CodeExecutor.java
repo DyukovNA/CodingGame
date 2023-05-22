@@ -8,26 +8,24 @@ import java.util.List;
 import java.util.Queue;
 
 public class CodeExecutor {
-    public int tilesToMove;
-    public int unitsToMove;
-    public Queue<String> commands;
+    public static int tilesToMove;
+    public static int unitsToMove;
+    public static Queue<String> commands = new LinkedList<>();
 
-    public void setGamePanel(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
+    public static void setGamePanel(GamePanel gamePanel) {
+        CodeExecutor.gamePanel = gamePanel;
     }
 
-    GamePanel gamePanel;
+    static GamePanel gamePanel;
 
-    public void setPlayer(Player player) {
-        this.player = player;
+    public static void setPlayer(Player player) {
+        CodeExecutor.player = player;
     }
 
-    Player player;
-    public CodeExecutor() {
-        commands = new LinkedList<>();
-    }
-    public void execute() {
-        if (!player.codeExecutor.commands.isEmpty()) {
+    static Player player;
+
+    public static void execute() {
+        if (!commands.isEmpty()) {
             String command = commands.poll();
             gamePanel.codePanel.getMessageArea().setText(command);
             System.out.println(commands);
@@ -38,10 +36,22 @@ public class CodeExecutor {
                 unitsToMove = tilesToMove * gamePanel.getTileSize();
                 player.setShouldBeMoved(true);
             }
-            if (!player.isShouldBeMoved()) player.update(command);
+            if (!player.isShouldBeMoved()) update(command);
         }
     }
-    public void parse(String code) throws IllegalArgumentException {
+
+    public static void update(String command) {
+        String[] splitCommand = command.split(" ");
+        switch (splitCommand[0]) {
+            case "turn":
+                player.turn(splitCommand);
+            case "grab":
+                player.grab();
+        }
+        execute();
+    }
+
+    public static void parse(String code) throws IllegalArgumentException {
         List<String> lines = List.of(code.split(";"));
 
         for (String line : lines) {
@@ -59,7 +69,7 @@ public class CodeExecutor {
                         commands.add(line);
                     } else throw new IllegalArgumentException();
                 } else if (splitLine.length == 1) {
-                    if (splitLine[0].equals("grab") || splitLine[0].equals("open")) {
+                    if (splitLine[0].equals("grab")) {
                         commands.add(line);
                     } else throw new IllegalArgumentException();
                 }

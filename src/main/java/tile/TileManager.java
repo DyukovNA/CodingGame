@@ -13,20 +13,21 @@ import java.util.List;
 import java.util.Objects;
 
 public class TileManager {
-    GamePanel gp;
+    GamePanel gamePanel;
     public List<Tile> tileList = new ArrayList<>();
     public int[][] mapTileNum;
     int maxCol;
     int maxRow;
 
     public TileManager(GamePanel gp) {
-        this.gp = gp;
+        gamePanel = gp;
         maxCol = gp.maxScreenCol;
         maxRow = gp.maxScreenRow;
         mapTileNum = new int[maxCol][maxRow];
         getTileImage();
     }
-    public void draw (Graphics2D g2){
+
+    public void draw(Graphics2D g2) {
         int col = 0;
         int row = 0;
         int x = 0;
@@ -34,14 +35,14 @@ public class TileManager {
 
         while (col < maxCol && row < maxRow) {
             int type = mapTileNum[col][row];
-            g2.drawImage(tileList.get(type).image, x, y, gp.getTileSize(), gp.getTileSize(), null);
+            g2.drawImage(tileList.get(type).image, x, y, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
             col++;
-            x += gp.getTileSize();
+            x += gamePanel.getTileSize();
             if (col == maxCol) {
                 col = 0;
                 x = 0;
                 row++;
-                y += gp.getTileSize();
+                y += gamePanel.getTileSize();
             }
         }
     }
@@ -70,139 +71,139 @@ public class TileManager {
         }
     }
 
-        public void getTileImage () {
-            try {
-                Tile dirt = new Tile(); //0
-                dirt.image = ImageIO.read(
-                        Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
-                                "environment/dirt.png"
-                        )));
-                dirt.collision = true;
-                tileList.add(dirt);
+    public void getTileImage() {
+        try {
+            Tile dirt = new Tile(); //0
+            dirt.image = ImageIO.read(
+                    Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
+                            "environment/dirt.png"
+                    )));
+            dirt.collision = true;
+            tileList.add(dirt);
 
-                Tile roadHor = new Tile(); //1
-                roadHor.image = ImageIO.read(
-                        Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
-                                "environment/road_hor.png"
-                        )));
-                roadHor.collision = false;
-                tileList.add(roadHor);
+            Tile roadHor = new Tile(); //1
+            roadHor.image = ImageIO.read(
+                    Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
+                            "environment/road_hor.png"
+                    )));
+            roadHor.collision = false;
+            tileList.add(roadHor);
 
-                Tile roadVert = new Tile(); //2
-                roadVert.image = ImageIO.read(
-                        Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
-                                "environment/road_ver.png"
-                        )));
-                roadVert.collision = false;
-                tileList.add(roadVert);
+            Tile roadVert = new Tile(); //2
+            roadVert.image = ImageIO.read(
+                    Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
+                            "environment/road_ver.png"
+                    )));
+            roadVert.collision = false;
+            tileList.add(roadVert);
 
-                Tile turn1 = new Tile(); //3
-                turn1.image = ImageIO.read(
-                        Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
-                                "environment/turn_1.png"
-                        )));
-                turn1.collision = false;
-                tileList.add(turn1);
+            Tile turn1 = new Tile(); //3
+            turn1.image = ImageIO.read(
+                    Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
+                            "environment/turn_1.png"
+                    )));
+            turn1.collision = false;
+            tileList.add(turn1);
 
-                Tile turn2 = new Tile(); //4
-                turn2.image = ImageIO.read(
-                        Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
-                                "environment/turn_2.png"
-                        )));
-                turn2.collision = false;
-                tileList.add(turn2);
+            Tile turn2 = new Tile(); //4
+            turn2.image = ImageIO.read(
+                    Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
+                            "environment/turn_2.png"
+                    )));
+            turn2.collision = false;
+            tileList.add(turn2);
 
-                Tile turn3 = new Tile(); //5
-                turn3.image = ImageIO.read(
-                        Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
-                                "environment/turn_3.png"
-                        )));
-                turn3.collision = false;
-                tileList.add(turn3);
+            Tile turn3 = new Tile(); //5
+            turn3.image = ImageIO.read(
+                    Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
+                            "environment/turn_3.png"
+                    )));
+            turn3.collision = false;
+            tileList.add(turn3);
 
-                Tile turn4 = new Tile(); //6
-                turn4.image = ImageIO.read(
-                        Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
-                                "environment/turn_4.png"
-                        )));
-                turn4.collision = false;
-                tileList.add(turn4);
+            Tile turn4 = new Tile(); //6
+            turn4.image = ImageIO.read(
+                    Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
+                            "environment/turn_4.png"
+                    )));
+            turn4.collision = false;
+            tileList.add(turn4);
 
-                Tile turnT1 = new Tile(); //7
-                turnT1.image = ImageIO.read(
-                        Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
-                                "environment/turn_T_1.png"
-                        )));
-                turnT1.collision = false;
-                tileList.add(turnT1);
+            Tile turnT1 = new Tile(); //7
+            turnT1.image = ImageIO.read(
+                    Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
+                            "environment/turn_T_1.png"
+                    )));
+            turnT1.collision = false;
+            tileList.add(turnT1);
 
 
-                Tile turnT2 = new Tile(); //8
-                turnT2.image = ImageIO.read(
-                        Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
-                                "environment/turn_T_2.png"
-                        )));
-                turnT2.collision = false;
-                tileList.add(turnT2);
+            Tile turnT2 = new Tile(); //8
+            turnT2.image = ImageIO.read(
+                    Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
+                            "environment/turn_T_2.png"
+                    )));
+            turnT2.collision = false;
+            tileList.add(turnT2);
 
-                Tile turnT3 = new Tile(); //9
-                turnT3.image = ImageIO.read(
-                        Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
-                                "environment/turn_T_3.png"
-                        )));
-                turnT3.collision = false;
-                tileList.add(turnT3);
+            Tile turnT3 = new Tile(); //9
+            turnT3.image = ImageIO.read(
+                    Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
+                            "environment/turn_T_3.png"
+                    )));
+            turnT3.collision = false;
+            tileList.add(turnT3);
 
-                Tile turnT4 = new Tile(); //10
-                turnT4.image = ImageIO.read(
-                        Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
-                                "environment/turn_T_4.png"
-                        )));
-                turnT4.collision = false;
-                tileList.add(turnT4);
+            Tile turnT4 = new Tile(); //10
+            turnT4.image = ImageIO.read(
+                    Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
+                            "environment/turn_T_4.png"
+                    )));
+            turnT4.collision = false;
+            tileList.add(turnT4);
 
-                Tile crossing = new Tile(); //11
-                crossing.image = ImageIO.read(
-                        Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
-                                "environment/crossing.png"
-                        )));
-                crossing.collision = false;
-                tileList.add(crossing);
+            Tile crossing = new Tile(); //11
+            crossing.image = ImageIO.read(
+                    Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
+                            "environment/crossing.png"
+                    )));
+            crossing.collision = false;
+            tileList.add(crossing);
 
-                Tile deadEndL = new Tile(); //12
-                deadEndL.image = ImageIO.read(
-                        Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
-                                "environment/deadend_l.png"
-                        )));
-                deadEndL.collision = false;
-                tileList.add(deadEndL);
+            Tile deadEndL = new Tile(); //12
+            deadEndL.image = ImageIO.read(
+                    Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
+                            "environment/deadend_l.png"
+                    )));
+            deadEndL.collision = false;
+            tileList.add(deadEndL);
 
-                Tile deadEndR = new Tile(); //13
-                deadEndR.image = ImageIO.read(
-                        Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
-                                "environment/deadend_r.png"
-                        )));
-                deadEndR.collision = false;
-                tileList.add(deadEndR);
+            Tile deadEndR = new Tile(); //13
+            deadEndR.image = ImageIO.read(
+                    Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
+                            "environment/deadend_r.png"
+                    )));
+            deadEndR.collision = false;
+            tileList.add(deadEndR);
 
-                Tile deadEndU = new Tile(); //14
-                deadEndU.image = ImageIO.read(
-                        Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
-                                "environment/deadend_u.png"
-                        )));
-                deadEndU.collision = false;
-                tileList.add(deadEndU);
+            Tile deadEndU = new Tile(); //14
+            deadEndU.image = ImageIO.read(
+                    Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
+                            "environment/deadend_u.png"
+                    )));
+            deadEndU.collision = false;
+            tileList.add(deadEndU);
 
-                Tile deadEndD = new Tile(); //15
-                deadEndD.image = ImageIO.read(
-                        Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
-                                "environment/deadend_d.png"
-                        )));
-                deadEndD.collision = false;
-                tileList.add(deadEndD);
+            Tile deadEndD = new Tile(); //15
+            deadEndD.image = ImageIO.read(
+                    Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
+                            "environment/deadend_d.png"
+                    )));
+            deadEndD.collision = false;
+            tileList.add(deadEndD);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
+}

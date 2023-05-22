@@ -1,5 +1,7 @@
 package swing;
 
+import model.CodeExecutor;
+import model.CollisionChecker;
 import model.LevelManager;
 
 import javax.swing.*;
@@ -30,9 +32,8 @@ public class LevelPanel extends JPanel {
         gamePanel = new GamePanel(codePanel);
         codePanel.gamePanel = gamePanel;
         gamePanel.levelPanel = this;
-        codePanel.codeExecutor.setGamePanel(gamePanel);
-        codePanel.codeExecutor.setPlayer(gamePanel.player);
-        gamePanel.player.codeExecutor = codePanel.codeExecutor;
+        CodeExecutor.setGamePanel(gamePanel);
+        CodeExecutor.setPlayer(gamePanel.player);
         mainPanel = gamePanel.codePanel.mainPanel;
 
         this.add(gamePanel);

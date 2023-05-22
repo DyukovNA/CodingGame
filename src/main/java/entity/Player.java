@@ -1,15 +1,14 @@
 package entity;
 
 import model.CodeExecutor;
+import model.CollisionChecker;
 import model.LevelManager;
 import swing.GamePanel;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.lang.reflect.Array;
 
 public class Player extends Entity {
     public boolean isShouldBeMoved() {
@@ -27,19 +26,15 @@ public class Player extends Entity {
         this.tangerines = tangerines;
     }
 
-    int tangerines = 0;
-    GamePanel gamePanel;
-    public CodeExecutor codeExecutor;
-
-    public void setMainPanel(JPanel mainPanel) {
-        this.mainPanel = mainPanel;
+    public int getTangerines() {
+        return tangerines;
     }
 
-    JPanel mainPanel;
+    int tangerines = 0;
+    GamePanel gamePanel;
 
     public Player(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        this.codeExecutor = gamePanel.getCodeExecutor();
 
         solidArea = new Rectangle();
         solidArea.x = this.x + 10;
@@ -54,7 +49,7 @@ public class Player extends Entity {
         LevelManager.setPlayer(this);
     }
 
-    public void getPlayerImage() {
+    private void getPlayerImage() {
         try {
             up1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/CapiBup.png"));
             down1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/CapiBdown.png"));
@@ -65,20 +60,8 @@ public class Player extends Entity {
         }
     }
 
-    public void update(String command) {
-        String[] splitCommand = command.split(" ");
-        switch (splitCommand[0]) {
-            case "turn":
-                turn(splitCommand);
-            case "grab":
-                grab();
-            case "open": // TODO: 19.04.2023
-        }
-        codeExecutor.execute();
-    }
-    private void turn(String[] splitCommand) {
+    public void turn(String[] splitCommand) {
         this.direction = splitCommand[1];
-        //gamePanel.codePanel.getMessageArea().setText("turning");
         try {
             Thread.sleep(200);
         } catch (InterruptedException e) {
@@ -88,9 +71,9 @@ public class Player extends Entity {
 
     public void move() {
         // Check tile collision
-        gamePanel.collisionChecker.checkTile(this);
+        collisionOn = CollisionChecker.checkTile(x, y, speed, direction);
         // Check object collision
-        indexOfObjectOnTile = gamePanel.collisionChecker.checkObject(this, true);
+        indexOfObjectOnTile = CollisionChecker.checkObject(speed, solidArea, direction, true);
         // Check if we are on a finish tile
         checkFinish();
         if (!collisionOn) {
@@ -102,9 +85,9 @@ public class Player extends Entity {
             }
             solidArea.x = x;
             solidArea.y = y;
-            codeExecutor.unitsToMove -= speed;
-            shouldBeMoved = codeExecutor.unitsToMove > 0;
-            if (codeExecutor.unitsToMove == 0) codeExecutor.execute();
+            CodeExecutor.unitsToMove -= speed;
+            shouldBeMoved = CodeExecutor.unitsToMove > 0;
+            if (CodeExecutor.unitsToMove == 0) CodeExecutor.execute();
         } else {
             LevelManager.reset(1);
         }
@@ -112,7 +95,6 @@ public class Player extends Entity {
 
     public void grab() {
         int index = indexOfObjectOnTile;
-        //gamePanel.codePanel.getMessageArea().setText("grabbing");
         try {
             Thread.sleep(200);
         } catch (InterruptedException e) {
@@ -123,7 +105,6 @@ public class Player extends Entity {
             if (name.equals("Tangerine")) {
                 tangerines++;
                 gamePanel.objects[index] = null;
-                System.out.println(tangerines);
             } else gamePanel.codePanel.getMessageArea().setText("Nothing to grab");
         }
         gamePanel.repaint();
@@ -132,18 +113,7 @@ public class Player extends Entity {
     private void checkFinish() {
         int index = indexOfObjectOnTile;
         if (index != -1 && gamePanel.objects[index] != null && gamePanel.objects[index].name.equals("Bath")) {
-            goToNextLevel();
-        }
-    }
-
-    private void goToNextLevel() {
-        if (tangerines == gamePanel.tangerinesToFinish) {
-            CardLayout cl = (CardLayout) (mainPanel.getLayout());
-            if (!(LevelManager.currentLevel + 1 >= LevelManager.maxLevel)) {
-                gamePanel.codePanel.getTextArea().setText("");
-                gamePanel.codePanel.getMessageArea().setText("");
-                cl.show(mainPanel, "End");
-            } else cl.show(mainPanel, "Thanks");
+            LevelManager.goToNextLevel();
         }
     }
 

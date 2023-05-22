@@ -1,9 +1,11 @@
 package swing;
 
+import model.LevelManager;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class MainWindow{
+public class MainWindow {
     static JFrame frame;
     JPanel mainPanel;
     MenuPanel menuPanel;
@@ -25,16 +27,17 @@ public class MainWindow{
         ChooseLevelPanel chooseLevelPanel = new ChooseLevelPanel(this);
         RulesPanel rulesPanel = new RulesPanel(this);
 
-        mainPanel.add(levelPanel, LEVELPANEL);
+        //adding cards
         mainPanel.add(rulesPanel, RULES);
-        mainPanel.add(menuPanel, BUTTONPANEL); //adding cards
+        mainPanel.add(menuPanel, BUTTONPANEL);
         mainPanel.add(endOfLevelPanel, END);
         mainPanel.add(thanksPanel, THANKS);
         mainPanel.add(chooseLevelPanel, CHOOSE);
+        mainPanel.add(levelPanel, LEVELPANEL);
 
 
         levelPanel.getCodePanel().setMainPanel(mainPanel);
-        levelPanel.getGamePanel().player.setMainPanel(mainPanel);
+        LevelManager.setMainPanel(mainPanel);
 
         pane.add(mainPanel, BorderLayout.PAGE_START);
     }

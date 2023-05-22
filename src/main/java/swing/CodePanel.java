@@ -33,13 +33,11 @@ public class CodePanel extends JPanel {
     JButton tryButton;
     JButton resetButton;
     JButton backButton;
-    CodeExecutor codeExecutor;
     GamePanel gamePanel;
     int screenHeight = 1080;
     int screenWidth = 470;
 
     public CodePanel() {
-        this.codeExecutor = new CodeExecutor();
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         addCodeArea();
         addMessageArea();
@@ -85,13 +83,13 @@ public class CodePanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 String text = textArea.getText();
                 try {
-                    codeExecutor.parse(text);
+                    CodeExecutor.parse(text);
                 } catch (IllegalArgumentException exception) {
                     exception.printStackTrace();
                     textArea.setText("Unknown command");
                 }
-                codeExecutor.execute();
-                System.out.println(codeExecutor.commands);
+                CodeExecutor.execute();
+                System.out.println(CodeExecutor.commands);
             }
         });
         tryButton.setBounds(1080 / 2, 1080, 400, 100);
