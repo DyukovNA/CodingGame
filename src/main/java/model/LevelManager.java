@@ -3,7 +3,7 @@ package model;
 import entity.Player;
 import object.Bath;
 import object.Tangerine;
-import swing.GamePanel;
+import view.GamePanel;
 
 import javax.swing.*;
 import java.awt.*;

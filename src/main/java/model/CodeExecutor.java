@@ -1,7 +1,7 @@
 package model;
 
 import entity.Player;
-import swing.GamePanel;
+import view.GamePanel;
 
 import java.util.LinkedList;
 import java.util.List;

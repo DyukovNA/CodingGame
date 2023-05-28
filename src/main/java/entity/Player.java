@@ -3,7 +3,7 @@ package entity;
 import model.CodeExecutor;
 import model.CollisionChecker;
 import model.LevelManager;
-import swing.GamePanel;
+import view.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

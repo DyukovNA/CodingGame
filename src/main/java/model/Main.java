@@ -1,6 +1,6 @@
 package model;
 
-import static swing.MainWindow.createAndShowGUI;
+import static view.MainWindow.createAndShowGUI;
 
 public class Main {
     public static void main(String[] args) {

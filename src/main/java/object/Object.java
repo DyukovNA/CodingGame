@@ -1,6 +1,6 @@
 package object;
 
-import swing.GamePanel;
+import view.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

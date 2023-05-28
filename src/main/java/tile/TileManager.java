@@ -1,6 +1,6 @@
 package tile;
 
-import swing.GamePanel;
+import view.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

@@ -1,6 +1,6 @@
 package model;
 
-import swing.GamePanel;
+import view.GamePanel;
 
 import java.awt.*;
 
